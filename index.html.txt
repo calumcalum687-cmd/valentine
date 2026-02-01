@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Be My Valentine 💘</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Comic Sans MS", "Segoe UI", cursive;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background: pink;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      text-align: center;
+      z-index: 2;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      color: #b30059;
+      margin-bottom: 40px;
+    }
+
+    button {
+      border: none;
+      border-radius: 14px;
+      padding: 16px 32px;
+      font-size: 1.3rem;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    #yesBtn {
+      background: #ff4da6;
+      color: white;
+    }
+
+    #noBtn {
+      background: white;
+      color: #b30059;
+      position: absolute;
+      animation: shake 0.4s infinite;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-4px); }
+      50% { transform: translateX(4px); }
+      75% { transform: translateX(-4px); }
+      100% { transform: translateX(0); }
+    }
+
+    .fullscreen {
+      position: fixed !important;
+      top: 0;
+      left: 0;
+      width: 100vw !important;
+      height: 100vh !important;
+      font-size: clamp(3rem, 8vw, 5rem) !important;
+      border-radius: 0 !important;
+      z-index: 999;
+    }
+
+    .heart {
+      position: absolute;
+      bottom: -20px;
+      font-size: 24px;
+      animation: floatUp linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(-110vh); opacity: 0; }
+    }
+  </style>
+</head>
+
+<body>
+  <audio id="loveMusic" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7c8bfbf6f1.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="container">
+    <h1>Pippa will you be my valentine?</h1>
+    <button id="yesBtn">Yes 💘</button>
+    <button id="noBtn">No 🙃</button>
+  </div>
+
+  <script>
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const music = document.getElementById("loveMusic");
+
+    let yesScale = 1;
+
+    noBtn.addEventListener("click", () => {
+      const maxX = window.innerWidth - noBtn.offsetWidth;
+      const maxY = window.innerHeight - noBtn.offsetHeight;
+
+      noBtn.style.left = Math.random() * maxX + "px";
+      noBtn.style.top = Math.random() * maxY + "px";
+
+      yesScale += 0.35;
+      yesBtn.style.transform = `scale(${yesScale})`;
+
+      if (yesScale > 4) {
+        yesBtn.classList.add("fullscreen");
+        yesBtn.innerText = "YES 💖";
+      }
+    });
+
+    yesBtn.addEventListener("click", () => {
+      music.play();
+
+      document.body.innerHTML = `
+        <div style="
+          height:100vh;
+          width:100vw;
+          background:pink;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          flex-direction:column;
+          text-align:center;
+          color:#b30059;
+          padding:20px;
+        ">
+          <h1 style="font-size:clamp(3rem,8vw,5rem);">YAY!!! 💕</h1>
+          <p style="font-size:clamp(1.5rem,5vw,2.5rem);">
+            Best Valentine Ever 💘
+          </p>
+        </div>
+      `;
+    });
+
+    setInterval(() => {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerText = "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = 3 + Math.random() * 4 + "s";
+      heart.style.fontSize = 20 + Math.random() * 20 + "px";
+
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 7000);
+    }, 300);
+  </script>
+</body>
+</html>
